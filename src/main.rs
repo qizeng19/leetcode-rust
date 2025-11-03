@@ -19,15 +19,24 @@ fn two_nums(nums: Vec<i32>, target: i32) -> Vec<i32> {
 
 use std::{collections::HashMap, hash::Hasher};
 impl Solution {
-    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut seen: HashMap<i32, usize> = HashMap::new();
-        for (i, &x) in nums.iter().enumerate() {
-            let need = target - x;
-            if let Some(&j) = seen.get(&need) {
-                return vec![j as i32, i as i32];
+    pub fn search(nums: Vec<i32>, target: i32) -> i32 {
+        // let (mut left, mut right) = (0_i32, nums.len() as i32 - 1);
+        let mut left = 0;
+        let mut right: i32 = nums.len() as i32 - 1;
+
+        while left <= right {
+            let mid = (right - left) / 2 + left;
+            let num = nums[mid as usize];
+            if num == target {
+                return mid;
             }
-            seen.insert(x, i);
+            if num > target {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
-        return vec![];
+
+        return -1;
     }
 }
